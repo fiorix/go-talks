@@ -241,7 +241,7 @@ Source:
 Download the presentation tool and this presentation:
 
 	go get golang.org/x/tools/present
-	go get github.com/fiorix/go-intro
+	go get github.com/fiorix/go-talks
 
 Example of downloading build dependencies:
 
