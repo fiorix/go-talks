@@ -1,0 +1,268 @@
+Hello world
+An introduction to the Go programming language
+
+Alexandre Fiori
+https://github.com/fiorix
+
+* Overview
+
+* Background
+
+- Created in 2007 by Rob Pike, Ken Thompson and Robert Griesemer
+- Concurrency based on Tony Hoare's Communicating Sequential Processes (CSP)
+- Statically compiled, object-oriented*, garbage collected
+- Goroutines and channels for concurrency
+- Channels as first class objects
+
+Go provides interfaces for composition, but has no type hierarchy.
+
+See also:
+
+.link https://www.youtube.com/watch?v=sln-gJaURzk Meet the Go team
+.link http://www.usingcsp.com/cspbook.pdf Communicating Sequential Processes (PDF)
+
+* Why another language?
+
+- Small, simple and clean
+- Created for modern multi-processor architectures
+- Easy to read and write top to bottom, statically typed
+- Builds fast, makes deployment trivial (especially for "the cloud")
+
+Go compilers are based on the Plan 9 tool chain.
+
+See also:
+
+.link https://golang.org/ref/spec Language specification
+.link https://golang.org/cmd/gc Go compiler tool chain
+.link https://github.com/golang/go/wiki/DesignDocuments Go Design Documents
+
+* Keep in mind
+
+- Go has a runtime (P, M, G)
+- Things block; no callback hell
+- Strong type system
+- Powerful I/O system
+- Amazing tools, and Gophers!
+
+.image https://golang.org/doc/gopher/gophercolor.png _ 200
+
+* Packages, variables and data structures
+
+- Code is organized in packages
+- Packages have absolute import paths
+- Exported vs non-exported (analogous to public vs private)
+- As simple as it gets: capitalized is exported
+- Go suggests the use of CamelCase, not underlines
+- Exported names *must* be documented
+
+* Types and interfaces
+
+- You can create any custom type
+- Any type can have functions associated
+- Types are initialized with a default value
+- Interfaces provide great type abstraction
+- The io.Reader and io.Writer interfaces
+
+Package documentation:
+
+.link http://golang.org/pkg/io/
+
+* Hello world
+
+.play intro/hello.go
+
+You cannot import packages or declare variables that you don't use.
+
+Package documentation:
+
+.link http://golang.org/pkg/fmt/
+
+* Where to start
+
+.link https://tour.golang.org A Tour of Go
+.link https://golang.org/doc/code.html How to Write Go Code
+.link https://golang.org/doc/effective_go.html Effective Go
+.link https://github.com/golang/go/wiki/CodeReviewComments Code Review Comments
+
+* Go in action
+
+* Programming environment
+
+- The `GOROOT` and `GOPATH` environment variables
+
+Quick setup:
+
+	export GOPATH=$HOME
+	export GOROOT=$HOME/go
+	export PATH=$PATH:$GOROOT/bin
+	curl -s https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz | tar -zx -C $HOME
+
+All code goes under the `$GOPATH/src` directory.
+
+* Interface example
+
+.play intro/interface.go /START/,/STOP/
+
+* HTTP server
+
+.play intro/httpserver.go /START/,/STOP/
+
+Package documentation:
+
+.link http://golang.org/pkg/net/http/
+
+* HTTP/2 server
+
+.play intro/http2server.go /START/,/STOP/
+
+* HTTP client
+
+.code intro/httpserver_test.go /START/,/STOP/
+
+Notes:
+
+- Functions can have multiple return values
+- The `defer` statement
+
+* XML and JSON
+
+- Marshal and unmarshal to and from structs
+- Structs can have tags associated for data transformation
+
+Package documentation and examples:
+
+.link http://golang.org/pkg/encoding/xml/
+.link http://golang.org/pkg/encoding/json/
+
+* Consuming JSON from freegeoip.net (1/2)
+
+This exercise shows how to consume JSON data from freegeoip.net.
+
+Sample:
+
+	$ curl -s freegeoip.net/json/github.com | python -m json.tool
+	{
+		"city": "San Francisco",
+		"country_code": "US",
+		"country_name": "United States",
+		"ip": "192.30.252.131",
+		"latitude": 37.77,
+		"longitude": -122.394,
+		"metro_code": 807,
+		"region_code": "CA",
+		"region_name": "California",
+		"time_zone": "America/Los_Angeles",
+		"zip_code": "94107"
+	}
+
+* Consuming JSON from freegeoip.net (2/2)
+
+.play intro/freegeoip.go /START/,/STOP/
+
+* C and Go
+
+The alternative `gccgo` compiler allows use of C code in Go.
+
+.code intro/cgoexample.go /START/,/STOP/
+
+Package documentation:
+
+.link http://golang.org/cmd/cgo/
+
+* Packages of the standard library
+
+.link http://golang.org/pkg/
+
+Check out:
+
+- `database/sql`
+- `html/template`
+- `net`
+- `os`
+
+* Concurrency
+
+* Goroutines and Channels
+
+Do not communicate by sharing memory; instead, share memory by communicating.
+
+.play intro/concurrency1.go /START/,/STOP/
+
+See also:
+
+.link http://talks.golang.org/2012/concurrency.slide Go Concurrency Patterns
+
+* The select statement
+
+A control structure unique to concurrency that provides another way to handle
+multiple channels. It's like a switch, but each case is a communication.
+
+.play intro/concurrency2.go /START/,/STOP/
+
+* Daisy-chain
+
+.play intro/daisy.go /func/,$
+
+Source:
+
+.link http://talks.golang.org/2012/concurrency.slide#39
+
+* Chinese whisperes, gopher style
+
+.image http://talks.golang.org/2012/concurrency/images/gophereartrumpet.jpg
+
+* Important to remember
+
+- Any function can be a goroutine
+- Goroutines are lightweight threads
+- Channels can be of any type
+- The `select` statement can handle multiple channels
+- The `range` statement (in a `for` loop) can read indefintely from a channel
+- Channels of type `struct{}` are optimized
+- Closing a channel can be used as a signal to the end of an operation
+- Goroutines and channels can be used to implement lock-free algorithms
+
+* Tools
+
+* Most popular and useful
+
+.link http://blog.golang.org/go-fmt-your-code gofmt
+.link https://godoc.org/golang.org/x/tools/cmd/goimports go imports
+.link http://golang.org/pkg/testing/ go test
+.link http://blog.golang.org/cover go cover
+.link https://github.com/golang/lint golint
+.link https://github.com/fatih/vim-go vim-go plugin
+
+* The "go get" tool
+
+- Resolves code dependencies for you
+- Downloads and build packages automatically using `git`, `svn`, `mercurial`...
+
+Download the presentation tool and this presentation:
+
+	go get golang.org/x/tools/present
+	go get github.com/fiorix/go-intro
+
+Example of downloading build dependencies:
+
+	go get github.com/fiorix/freegeoip
+	cd $GOPATH/src/github.com/fiorix/freegeoip/cmd/freegeoip
+	go get -v
+	go build
+
+* Profiling
+
+The standard library provides run time profiling data in the format expected
+by the `pprof` visualization tool.
+
+.link http://golang.org/pkg/runtime/pprof/ runtime/pprof
+
+The `net/http` package has a profiler that can serve data over HTTP on demand.
+
+.link http://golang.org/pkg/net/http/pprof/ net/http/pprof
+
+See also:
+
+.link http://blog.golang.org/profiling-go-programs Profiling Go programs
+
+* Questions

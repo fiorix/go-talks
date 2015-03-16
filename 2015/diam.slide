@@ -1,0 +1,69 @@
+The diameter protocol
+
+Alexandre Fiori
+https://github.com/fiorix
+
+* Video
+
+This (lightning) talk was presented at FOSDEM in February 2015.
+
+Got me a pair of Gophers for a 5 minutes voluntary presentation.
+
+.link https://www.youtube.com/watch?v=oM-MfeflUZ8&t=1467 Watch the talk on YouTube
+
+* What is it?
+
+.link https://tools.ietf.org/html/rfc6733
+
+My repo:
+
+.link https://github.com/fiorix/go-diameter
+
+* Where is it used?
+
+- 3GPP PCC architecture
+- Subscription Profile Repository (SPR)
+- Policy Charging and Rules Function (PCRF)
+- Policy Charging and Enforcement Function (PCEF)
+- Online Charging System (OCS)
+
+* My first crack
+
+- Two Intel i5 quad-core with 4GB ram on a 1Gbps network
+
+	$ ./bench -c 1 -n 100000 test2:3868
+	2013/08/31 14:27:32 Connecting to test2:3868
+	2013/08/31 14:27:32 OK, sending messages
+	2013/08/31 14:27:36 100000 messages in 3.868849576s seconds, 25847 msg/s
+	2013/08/31 14:27:36 Done.
+
+* Some time later
+
+- Less reflection
+- Dropped `binary.Read` and `binary.Write`
+
+	$ ./bench -c 1 -n 1000000 test2:3868
+	2014/04/17 19:20:45 Connecting to test2:3868
+	2014/04/17 19:20:45 OK, sending messages
+	2014/04/17 19:20:54 1000000 messages in 9.381955813s seconds, 106587 msg/s
+	2014/04/17 19:20:54 Done.
+
+.link https://github.com/fiorix/go-diameter/blob/master/diam/avp.go
+
+* Current
+
+- Internal API analogous to `gopacket`
+- External API analogous to `net/http`
+- Lock free dictionary lookups
+- Added `sync.Pool`
+
+	2014/10/14 17:19:35 200000 messages (request+answer) in 1.044636932s seconds, 191454 msg/s
+	2014/10/14 17:19:35 200000 messages (request+answer) in 1.051021203s seconds, 190291 msg/s
+	2014/10/14 17:19:35 200000 messages (request+answer) in 1.050285029s seconds, 190424 msg/s
+	2014/10/14 17:19:35 200000 messages (request+answer) in 1.070140824s seconds, 186891 msg/s
+	2014/10/14 17:19:35 Total of 800000 messages in 1.076188492s: 743364 msg/s
+
+* What else?
+
+- SCTP
+- State machines
