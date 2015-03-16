@@ -228,6 +228,7 @@ Source:
 
 .link http://blog.golang.org/go-fmt-your-code gofmt
 .link https://godoc.org/golang.org/x/tools/cmd/goimports go imports
+.link http://godoc.org/golang.org/x/tools/cmd/vet go vet
 .link http://golang.org/pkg/testing/ go test
 .link http://blog.golang.org/cover go cover
 .link https://github.com/golang/lint golint
