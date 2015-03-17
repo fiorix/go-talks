@@ -181,6 +181,10 @@ Notes:
 - Functions can have multiple return values
 - The `defer` statement
 
+* Testing web servers
+
+.code intro/httpserver_test.go /START1/,/STOP1/
+
 * XML and JSON
 
 - Marshal and unmarshal to and from structs
@@ -266,10 +270,6 @@ Check out:
 .link https://github.com/golang/lint golint
 .link https://github.com/tools/godep godep
 .link https://github.com/fatih/vim-go vim-go plugin
-
-* Testing web servers
-
-.code intro/httpserver_test.go /START1/,/STOP1/
 
 * The "go get" tool
 
