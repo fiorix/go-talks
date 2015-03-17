@@ -10,6 +10,7 @@ import (
 	"testing"
 )
 
+// START1 OMIT
 func TestHello(t *testing.T) {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/hello", helloHandler)
@@ -24,7 +25,9 @@ func TestHello(t *testing.T) {
 	}
 }
 
-// START OMIT
+// STOP1 OMIT
+
+// START2 OMIT
 func query(url string) (body string, err error) { // HL
 	resp, err := http.Get(url)
 	if err != nil {
@@ -41,4 +44,4 @@ func query(url string) (body string, err error) { // HL
 	return string(b), nil
 }
 
-// STOP OMIT
+// STOP2 OMIT

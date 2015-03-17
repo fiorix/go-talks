@@ -84,8 +84,6 @@ Package documentation:
 .link https://golang.org/doc/effective_go.html Effective Go
 .link https://github.com/golang/go/wiki/CodeReviewComments Code Review Comments
 
-* Go in action
-
 * Programming environment
 
 - The `GOROOT` and `GOPATH` environment variables
@@ -99,9 +97,68 @@ Quick setup:
 
 All code goes under the `$GOPATH/src` directory.
 
-* Interface example
+* Concurrency
+
+* Goroutines and Channels
+
+Do not communicate by sharing memory; instead, share memory by communicating.
+
+.play intro/concurrency1.go /START/,/STOP/
+
+See also:
+
+.link http://talks.golang.org/2012/concurrency.slide Go Concurrency Patterns
+
+* The select statement
+
+A control structure unique to concurrency that provides another way to handle
+multiple channels. It's like a switch, but each case is a communication.
+
+.play intro/concurrency2.go /START/,/STOP/
+
+* Daisy-chain
+
+.play intro/daisy.go /func/,$
+
+Source:
+
+.link http://talks.golang.org/2012/concurrency.slide#39
+
+* Chinese whisperes, gopher style
+
+.image http://talks.golang.org/2012/concurrency/images/gophereartrumpet.jpg
+
+* Important to remember
+
+- Any function can be a goroutine
+- Goroutines are lightweight threads
+- Channels can be of any type
+- The `select` statement can handle multiple channels
+- The `range` statement (in a `for` loop) can read indefintely from a channel
+- Channels of type `struct{}` are optimized
+- Closing a channel can be used as a signal to the end of an operation
+- Goroutines and channels can be used to implement lock-free algorithms
+
+* Code snippets
+
+* Interfaces
 
 .play intro/interface.go /START/,/STOP/
+
+* For loops on slices
+
+.play intro/forslice.go /^func main/,/^$/
+
+* For loops on maps
+
+.play intro/formap.go /^func main/,/^$/
+
+* Labels
+
+You can `break` to a specific label. The `continue` statement also accepts a
+label, but only applies to loops.
+
+.play intro/label.go /func main/,/^$/
 
 * HTTP server
 
@@ -117,7 +174,7 @@ Package documentation:
 
 * HTTP client
 
-.code intro/httpserver_test.go /START/,/STOP/
+.code intro/httpserver_test.go /START2/,/STOP2/
 
 Notes:
 
@@ -169,6 +226,23 @@ Package documentation:
 
 .link http://golang.org/cmd/cgo/
 
+* Cross compilation
+
+The Go compilers offer native support for cross compilation due to their
+architecture.
+
+Cross compile using `GOOS` and `GOARCH` environment variables.
+
+.link https://golang.org/doc/install/source#environment Supported platforms
+
+.link https://github.com/golang/go/wiki/GccgoCrossCompilation gccgo cross compilation
+
+Examples:
+
+	GOOS=linux   GOARCH=amd64 go build
+	GOOS=freebsd GOARCH=amd64 go build
+	GOOS=windows GOARCH=amd64 go build
+
 * Packages of the standard library
 
 .link http://golang.org/pkg/
@@ -180,48 +254,6 @@ Check out:
 - `net`
 - `os`
 
-* Concurrency
-
-* Goroutines and Channels
-
-Do not communicate by sharing memory; instead, share memory by communicating.
-
-.play intro/concurrency1.go /START/,/STOP/
-
-See also:
-
-.link http://talks.golang.org/2012/concurrency.slide Go Concurrency Patterns
-
-* The select statement
-
-A control structure unique to concurrency that provides another way to handle
-multiple channels. It's like a switch, but each case is a communication.
-
-.play intro/concurrency2.go /START/,/STOP/
-
-* Daisy-chain
-
-.play intro/daisy.go /func/,$
-
-Source:
-
-.link http://talks.golang.org/2012/concurrency.slide#39
-
-* Chinese whisperes, gopher style
-
-.image http://talks.golang.org/2012/concurrency/images/gophereartrumpet.jpg
-
-* Important to remember
-
-- Any function can be a goroutine
-- Goroutines are lightweight threads
-- Channels can be of any type
-- The `select` statement can handle multiple channels
-- The `range` statement (in a `for` loop) can read indefintely from a channel
-- Channels of type `struct{}` are optimized
-- Closing a channel can be used as a signal to the end of an operation
-- Goroutines and channels can be used to implement lock-free algorithms
-
 * Tools
 
 * Most popular and useful
@@ -229,10 +261,15 @@ Source:
 .link http://blog.golang.org/go-fmt-your-code gofmt
 .link https://godoc.org/golang.org/x/tools/cmd/goimports go imports
 .link http://godoc.org/golang.org/x/tools/cmd/vet go vet
-.link http://golang.org/pkg/testing/ go test
+.link http://golang.org/pkg/testing/ go test (-cover, -race)
 .link http://blog.golang.org/cover go cover
 .link https://github.com/golang/lint golint
+.link https://github.com/tools/godep godep
 .link https://github.com/fatih/vim-go vim-go plugin
+
+* Testing web servers
+
+.code intro/httpserver_test.go /START1/,/STOP1/
 
 * The "go get" tool
 
