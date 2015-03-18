@@ -83,6 +83,8 @@ Package documentation:
 .link https://golang.org/doc/code.html How to Write Go Code
 .link https://golang.org/doc/effective_go.html Effective Go
 .link https://github.com/golang/go/wiki/CodeReviewComments Code Review Comments
+.link https://groups.google.com/group/golang-nuts go-nuts mailing list
+.link http://www.reddit.com/r/golang/ golang on reddit
 
 * Programming environment
 
