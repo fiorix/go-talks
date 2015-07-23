@@ -116,11 +116,13 @@ Terrible build system
 
 * Gopacket
 
-Provides low level packet tx/rx, and codecs
+Provides low level packet rx/tx, and codecs
 
-Most low level packet tx/rx requires cgo
+Most low level packet rx/tx requires cgo
 
-Written for capturing packets, not generating or writing
+Written for capturing packets, modifying/generating/writing
+
+Supports PCAP, AF_PACKET, and PF_RING
 
 .link https://github.com/google/gopacket
 
@@ -158,3 +160,19 @@ Testing, benchmarking and profiling tools out of the box
 Decent sets of [[https://github.com/Workiva/go-datastructures][performant data structures]]
 
 Simple monitoring tools via instrumentation, like [[http://prometheus.io][Prometheus]].
+
+
+* Use cases
+
+SDN / NFV
+
+Analytics, IDS
+
+Network stack in user space
+
+Related:
+
+.link https://en.wikipedia.org/wiki/C10k_problem C10k / C10M problem
+
+
+* Demo
