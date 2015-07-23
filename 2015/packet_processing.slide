@@ -1,0 +1,158 @@
+Packet Processing in Go
+23 Jul 2015
+
+Alexandre Fiori
+github.com/fiorix
+
+* Introduction
+
+
+* Challenges
+
+We want line rate throughput from user space
+
+Default stack and tools are slow
+
+Go has a garbage collector
+
+Threads help, context switch doesn't
+
+
+* General solution
+
+I/O batching
+
+Zero copy
+
+Preallocation of memory
+
+Lock-free data structures
+
+
+* Constraints
+
+Latency
+
+Packet time vs size
+
+Spinning vs interruption
+
+Kernel vs user space
+
+
+* Tools
+
+
+* Low level packet processing
+
+PCAP
+
+AF_PACKET
+
+PF_RING
+
+Netmap
+
+DPDK
+
+
+* PCAP
+
+The most compatible
+
+Not the fastest
+
+Good for prototyping
+
+Excellent for saving and replaying data
+
+
+* AF_PACKET
+
+Linux thing
+
+Provides load balancing
+
+The fastest for capturing is v3, but lacks TX ring
+
+.link https://www.kernel.org/doc/Documentation/networking/packet_mmap.txt
+
+
+* PF_RING
+
+Linux thing
+
+Provides filters, load balancer, zero copy, kernel bypass, etc
+
+.link http://www.ntop.org/products/packet-capture/pf_ring/
+
+
+* Netmap
+
+Native on BSD
+
+Linux support + net driver patches
+
+Provides a switch, VALE
+
+.link http://info.iet.unipi.it/~luigi/netmap/
+
+
+* DPDK
+
+Intel thing, for Linux and BSD
+
+Super fast, decent demos
+
+Terrible build system
+
+.link http://dpdk.org
+
+
+* Enter Go
+
+
+* Gopacket
+
+Provides low level packet tx/rx, and codecs
+
+Most low level packet tx/rx requires cgo
+
+Written for capturing packets, not generating or writing
+
+.link https://github.com/google/gopacket
+
+
+* Gopacket Pros
+
+Easy to use
+
+Solid and optimized API
+
+Wide support for network protocols
+
+Decent tools (e.g. TCP reassembly)
+
+
+* Gopacket Cons
+
+Some bugs (e.g. ethernet padding)
+
+Not meant to modify packets
+
+Lack of some encoders (e.g. IP options)
+
+Lack of TX ring for AF_PACKET
+
+
+* Benefits of using Go
+
+Easily manage (memory and other) pools with [[http://golang.org/pkg/sync/#Pool][sync.Pool]]
+
+Can dedicate goroutines to packet processing with [[http://golang.org/pkg/runtime/#LockOSThread][runtime.LockOSThread]]
+
+Testing, benchmarking and profiling tools out of the box
+
+Decent sets of [[https://github.com/Workiva/go-datastructures][performant data structures]]
+
+Simple monitoring tools via instrumentation, like [[http://prometheus.io][Prometheus]].
