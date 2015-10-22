@@ -1,0 +1,60 @@
+Short Message Peer-to-Peer
+A walkthrough the implementation of the SMPP protocol
+
+Alexandre Fiori
+https://github.com/fiorix
+
+* Overview
+
+* The SMPP protocol
+
+- Handshake: BIND first
+- House keeping: Enquire Link messages
+- Must handle inbound messages asynchronously
+
+.link http://opensmpp.org/specs/smppv34_gsmumts_ig_v10.pdf
+
+* Existing packages
+
+- [[https://github.com/elcuervo/GoSMPP][El Cuervo's]] rough implementation
+- [[https://github.com/CodeMonkeyKevin/smpp34][Kevin's]] pythonic API, lacking features
+- Maybe others?
+
+* Fork
+
+* My package
+
+.link https://github.com/fiorix/go-smpp
+
+Provides a solid SMPP implementation that is well documented, feature-rich,
+and ships with sample applications:
+
+- [[https://github.com/fiorix/go-smpp/tree/master/cmd/sms][Command line tool]] for sending SMS
+- [[https://github.com/fiorix/go-smpp/tree/master/cmd/smsapid][HTTP to SMPP proxy]] for sending and receiving SMS
+
+Proxy provides REST and WebSocket APIs. Latter uses RPC.
+
+* Features:
+
+- TLS for client and server (also contributed to Kevin's repo)
+- Persistent client connections with back-off timer
+- [[https://godoc.org/github.com/fiorix/go-smpp/smpp/smpptest][Test server]] like `httptest`
+- [[https://godoc.org/github.com/fiorix/go-smpp][Better documentation with examples]]
+- [[https://travis-ci.org/fiorix/go-smpp][Better test coverage]], though not perfect
+- [[https://godoc.org/github.com/fiorix/go-smpp/smpp/pdu/pdutext][Support for text encoding]] for LATIN-1 and UCS-2
+
+* Idiomatic Go matters
+
+Kevin's package (the most popular) requires a lot of house keeping, lacks
+persistent connections, and text encoding. Won't pass golint, has few tests.
+
+The API is very pythonic, lots of duplicate code, hard to implement new
+features and tests.
+
+My package provides blocking APIs for all SMPP operations and handles
+client connection in background, making it easier to write long running
+clients and to export `cgo` as C archive or library.
+
+* Demo
+
+* Questions
