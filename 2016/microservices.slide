@@ -1,23 +1,19 @@
 Go and μservices
-Tips, packages, and more
 
 Alexandre Fiori
 https://github.com/fiorix
 
 * Intro
 
-- 12-factor apps
-- MQs and RPC
-- Orchestration
-- Encryption
+* 12 factor apps
 
-* Apps: codebase
+* Codebase
 
 Single repository works better.
 
 How to handle completely different technologies such as backend and frontend?
 
-* Apps: dependencies
+* Dependencies
 
 Single vs multiple GOPATH, and vendor management.
 
@@ -25,7 +21,7 @@ Single vs multiple GOPATH, and vendor management.
 - https://github.com/tools/godep
 - https://getgb.io
 
-* Apps: config
+* Config
 
 Support at least environment variables *and* command line flags.
 
@@ -49,7 +45,7 @@ Support at least environment variables *and* command line flags.
 
 .caption Cobra and pflag offers *composability* for command line tools.
 
-* Apps: backing services
+* Backing services
 
 Resilient clients are key.
 
@@ -58,7 +54,7 @@ Resilient clients are key.
 - Client load balancing
 - Timeouts
 
-* Apps: build, release, run
+* Build, release, run
 
 Gone are the days we needed a whole runtime on servers.
 
@@ -66,11 +62,11 @@ Gone are the days we needed a whole runtime on servers.
 - Single container image
 - Multiple (deb, rpm) packages
 
-* Apps: processes; port binding; concurrency
+* Processes; port binding; concurrency
 
 Out of the box. \o/
 
-* Apps: disposability
+* Disposability
 
 Fast startup is easy, graceful shutdown is not. Must stop accepting new connections but finish the ones in flight before shutting down.
 
@@ -85,15 +81,24 @@ CI / CD to the rescue; staging and prod parity relies on orchestration systems.
 
 KISS: run in foreground, log to console.
 
-- Admin processes
+Let the platform handle log shipping.
+
+* Admin processes
 
 Just another μservice out of the same binary.
 
-* MQs and RPC
+* Message Queues and RPC
 
-Some MQs offer durability and delivery guarantees, but introduce single point of failure. RPC is great but requires service discovery, client load balancers, and streaming capabilities.
+* MQs and/or RPC?
+
+Message queues offer decentralized architecture with agents that know little about each other. Introduces other problems, like single point of failure. Asynchronous RPC can be problematic and hard to troubleshoot.
+
+RPC and the idea of providing functionality as *functions* is great. Without MQs, RPC requires service discovery, client load balancers, and streaming capabilities.
 
 gRPC and its ecosystem is pretty decent for environments that can offer service discovery.
+
+- http://www.grpc.io
+- https://github.com/grpc-ecosystem
 
 * Orchestration
 
