@@ -1,0 +1,116 @@
+Go and μservices
+Tips, packages, and more
+
+Alexandre Fiori
+https://github.com/fiorix
+
+* Intro
+
+- 12-factor apps
+- MQs and RPC
+- Orchestration
+- Encryption
+
+* Apps: codebase
+
+Single repository works better.
+
+How to handle completely different technologies such as backend and frontend?
+
+* Apps: dependencies
+
+Single vs multiple GOPATH, and vendor management.
+
+- https://github.com/kardianos/govendor
+- https://github.com/tools/godep
+- https://getgb.io
+
+* Apps: config
+
+Support at least environment variables *and* command line flags.
+
+- https://github.com/spf13/cobra
+- https://github.com/spf13/pflag
+- https://github.com/kelseyhightower/envconfig
+
+	type Config struct {
+		Addr string `envconfig:"ADDR" default:":8080"`
+	}
+
+	func NewConfig() *Config {
+		var c &Config{}
+		envconfig.Process("MYAPP", c)
+		return c
+	}
+
+	func (c *Config) AddFlags(fs *pflag.FlagSet) {
+		fs.StringVar(&c.Addr, "addr", c.Addr, "address in form of [ip]:port to listen on")
+	}
+
+.caption Cobra and pflag offers *composability* for command line tools.
+
+* Apps: backing services
+
+Resilient clients are key.
+
+- Auto reconnection
+- Connection pools
+- Client load balancing
+- Timeouts
+
+* Apps: build, release, run
+
+Gone are the days we needed a whole runtime on servers.
+
+- Single static binary
+- Single container image
+- Multiple (deb, rpm) packages
+
+* Apps: processes; port binding; concurrency
+
+Out of the box. \o/
+
+* Apps: disposability
+
+Fast startup is easy, graceful shutdown is not. Must stop accepting new connections but finish the ones in flight before shutting down.
+
+- https://github.com/facebookgo/grace
+
+
+* Dev/prod parity
+
+CI / CD to the rescue; staging and prod parity relies on orchestration systems.
+
+* Logs
+
+KISS: run in foreground, log to console.
+
+- Admin processes
+
+Just another μservice out of the same binary.
+
+* MQs and RPC
+
+Some MQs offer durability and delivery guarantees, but introduce single point of failure. RPC is great but requires service discovery, client load balancers, and streaming capabilities.
+
+gRPC and its ecosystem is pretty decent for environments that can offer service discovery.
+
+* Orchestration
+
+Not specifically about Go, but...
+
+- Public vs Private Cloud
+- Virtual machines vs Containers
+- Kubernetes (secrets, configmap, deployments, services, etc)
+
+* Encryption
+
+- Self-signed CAs for μservices
+- Client certificate authentication
+- Automatic TLS with letsencrypt.org
+
+* One more thing
+
+https://gokit.io
+
+* Questions
